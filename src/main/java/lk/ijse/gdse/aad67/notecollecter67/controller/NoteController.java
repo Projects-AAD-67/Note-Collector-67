@@ -13,7 +13,8 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/notes")
 public class NoteController {
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public NoteDTO saveNote(@RequestBody NoteDTO noteDTO) {
          noteDTO.setNoteId(AppUtil.generateNoteId());
          return noteDTO;
