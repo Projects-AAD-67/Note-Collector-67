@@ -6,10 +6,7 @@ import lk.ijse.gdse.aad67.notecollecter67.service.NoteServiceIMPL;
 import lk.ijse.gdse.aad67.notecollecter67.util.AppUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,21 +14,19 @@ import java.util.List;
 @RequestMapping("api/v1/notes")
 public class NoteController {
     @Autowired
-    NoteService noteService;
+   private NoteService noteService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public NoteDTO saveNote(@RequestBody NoteDTO noteDTO) {
-        noteDTO.setNoteId(AppUtil.generateNoteId());
-        var noteServiceIMPL = new NoteServiceIMPL();
-        noteServiceIMPL.saveNote(noteDTO);
-        return noteDTO;
+      return noteService.saveNote(noteDTO);
     }
     public NoteDTO getSelectedNote(){
         return null;
     }
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<NoteDTO> getALlNotes(){
-        return null;
+       return noteService.getAllNotes();
     }
     public void deleteNote(String noteId){
 
