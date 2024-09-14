@@ -21,7 +21,6 @@ import javax.sql.DataSource;
 @EnableJpaRepositories
 @EnableTransactionManagement
 public class WebAppRootConfig {
-
     @Bean
     public DataSource dataSource() {
         var dmds = new DriverManagerDataSource();
@@ -31,20 +30,16 @@ public class WebAppRootConfig {
         dmds.setPassword("mysql");
         return dmds;
     }
-
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setGenerateDdl(true);
-
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan("com.acme.domain");
+        factory.setPackagesToScan("lk.ijse.gdse.aad67.notecollecter67.entity.impl");
         factory.setDataSource(dataSource());
         return factory;
     }
-
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager txManager = new JpaTransactionManager();
