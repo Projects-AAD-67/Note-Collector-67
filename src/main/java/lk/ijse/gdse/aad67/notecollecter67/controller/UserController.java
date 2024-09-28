@@ -5,6 +5,7 @@ import lk.ijse.gdse.aad67.notecollecter67.service.UserService;
 import lk.ijse.gdse.aad67.notecollecter67.service.impl.UserServiceIMPL;
 import lk.ijse.gdse.aad67.notecollecter67.util.AppUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,4 +49,11 @@ public class UserController {
     public UserDTO getSelectedUser(@PathVariable ("userId") String userId){
         return userService.getUser(userId);
     }
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping(value = "/{userId}")
+    public void deleteUser(@PathVariable("userId") String userId){
+        userService.deleteUser(userId);
+    }
+
+
 }
