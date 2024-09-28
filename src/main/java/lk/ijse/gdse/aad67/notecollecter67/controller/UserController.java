@@ -17,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserController {
     @Autowired
     private UserService userService;
-
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public UserDTO saveUser(
@@ -33,13 +32,12 @@ public class UserController {
         try {
             byte [] bytesProPic = profilePic.getBytes();
             base64ProPic = AppUtil.profilePicToBase64(bytesProPic);
-
         }catch (Exception e){
             e.printStackTrace();
         }
         //UserId generate
         String userId = AppUtil.generateUserId();
-        //Todo: Build the Object
+        //Build the Object
         UserDTO buildUserDTO = new UserDTO();
         buildUserDTO.setUserId(userId);
         buildUserDTO.setFirstName(firstName);
