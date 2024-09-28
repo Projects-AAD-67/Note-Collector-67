@@ -25,7 +25,6 @@ public class UserController {
         System.out.println("RAW pro pic "+profilePic);
          // profilePic ----> Base64
         String base64ProPic = "";
-
         try {
             byte [] bytesProPic = profilePic.getBytes();
             base64ProPic = AppUtil.profilePicToBase64(bytesProPic);
@@ -33,19 +32,16 @@ public class UserController {
         }catch (Exception e){
             e.printStackTrace();
         }
-
-
         //UserId generate
         String userId = AppUtil.generateUserId();
         //Todo: Build the Object
-        var buildUserDTO = new UserDTO();
+        UserDTO buildUserDTO = new UserDTO();
         buildUserDTO.setUserId(userId);
         buildUserDTO.setFirstName(firstName);
         buildUserDTO.setLastName(lastName);
         buildUserDTO.setEmail(email);
         buildUserDTO.setPassword(password);
         buildUserDTO.setProfilePic(base64ProPic);
-
         return buildUserDTO;
     }
 }
