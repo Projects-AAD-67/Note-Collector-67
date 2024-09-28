@@ -6,10 +6,7 @@ import lk.ijse.gdse.aad67.notecollecter67.service.impl.UserServiceIMPL;
 import lk.ijse.gdse.aad67.notecollecter67.util.AppUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
@@ -26,7 +23,6 @@ public class UserController {
            @RequestPart ("password") String password,
            @RequestPart ("profilePic") MultipartFile profilePic
     ) {
-        System.out.println("RAW pro pic "+profilePic);
          // profilePic ----> Base64
         String base64ProPic = "";
         try {
@@ -47,5 +43,9 @@ public class UserController {
         buildUserDTO.setProfilePic(base64ProPic);
         userService.saveUser(buildUserDTO);
         return buildUserDTO;
+    }
+    @GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public UserDTO getSelectedUser(@PathVariable ("userId") String userId){
+        return userService.getUser(userId);
     }
 }
