@@ -3,7 +3,9 @@ package lk.ijse.gdse.aad67.notecollecter67.service.impl;
 import jakarta.transaction.Transactional;
 import lk.ijse.gdse.aad67.notecollecter67.dao.UserDao;
 import lk.ijse.gdse.aad67.notecollecter67.dto.impl.UserDTO;
+import lk.ijse.gdse.aad67.notecollecter67.entity.impl.UserEntity;
 import lk.ijse.gdse.aad67.notecollecter67.service.UserService;
+import lk.ijse.gdse.aad67.notecollecter67.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +15,11 @@ import java.util.List;
 public class UserServiceIMPL implements UserService {
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private Mapping mapping;
     @Override
     public UserDTO saveUser(UserDTO userDTO) {
-       userDao.save(userDTO)
+        return mapping.toUserDTO(userDao.save(mapping.toUserEntity(userDTO)));
     }
 
     @Override
