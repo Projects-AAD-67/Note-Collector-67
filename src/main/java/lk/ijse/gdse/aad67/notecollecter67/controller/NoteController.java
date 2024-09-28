@@ -2,8 +2,6 @@ package lk.ijse.gdse.aad67.notecollecter67.controller;
 
 import lk.ijse.gdse.aad67.notecollecter67.dto.impl.NoteDTO;
 import lk.ijse.gdse.aad67.notecollecter67.service.NoteService;
-import lk.ijse.gdse.aad67.notecollecter67.service.NoteServiceIMPL;
-import lk.ijse.gdse.aad67.notecollecter67.util.AppUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

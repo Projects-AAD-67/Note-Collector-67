@@ -1,7 +1,10 @@
 package lk.ijse.gdse.aad67.notecollecter67.controller;
 
 import lk.ijse.gdse.aad67.notecollecter67.dto.impl.UserDTO;
+import lk.ijse.gdse.aad67.notecollecter67.service.UserService;
+import lk.ijse.gdse.aad67.notecollecter67.service.impl.UserServiceIMPL;
 import lk.ijse.gdse.aad67.notecollecter67.util.AppUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("api/v1/users")
 public class UserController {
+    @Autowired
+    private UserService userService;
+
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public UserDTO saveUser(
@@ -20,7 +26,6 @@ public class UserController {
            @RequestPart ("email") String email,
            @RequestPart ("password") String password,
            @RequestPart ("profilePic") MultipartFile profilePic
-
     ) {
         System.out.println("RAW pro pic "+profilePic);
          // profilePic ----> Base64
@@ -42,6 +47,7 @@ public class UserController {
         buildUserDTO.setEmail(email);
         buildUserDTO.setPassword(password);
         buildUserDTO.setProfilePic(base64ProPic);
+        userService.saveUser(buildUserDTO);
         return buildUserDTO;
     }
 }
