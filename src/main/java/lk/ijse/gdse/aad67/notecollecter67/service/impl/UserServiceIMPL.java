@@ -15,7 +15,7 @@ public class UserServiceIMPL implements UserService {
     private UserDao userDao;
     @Override
     public UserDTO saveUser(UserDTO userDTO) {
-       userDao.save()
+       userDao.save(userDTO)
     }
 
     @Override
