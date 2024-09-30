@@ -7,6 +7,7 @@ import lk.ijse.gdse.aad67.notecollecter67.dto.UserStatus;
 import lk.ijse.gdse.aad67.notecollecter67.dto.impl.UserDTO;
 import lk.ijse.gdse.aad67.notecollecter67.entity.impl.UserEntity;
 import lk.ijse.gdse.aad67.notecollecter67.exception.DataPersistException;
+import lk.ijse.gdse.aad67.notecollecter67.exception.UserNotFoundException;
 import lk.ijse.gdse.aad67.notecollecter67.service.UserService;
 import lk.ijse.gdse.aad67.notecollecter67.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,12 @@ public class UserServiceIMPL implements UserService {
 
     @Override
     public void deleteUser(String userId) {
-        userDao.deleteById(userId);
+        Optional<UserEntity> existedUser = userDao.findById(userId);
+        if(!existedUser.isPresent()){
+            throw new UserNotFoundException("User with id " + userId + " not found");
+        }else {
+            userDao.deleteById(userId);
+        }
     }
 
     @Override

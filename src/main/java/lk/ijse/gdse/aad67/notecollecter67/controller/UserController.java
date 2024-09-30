@@ -4,6 +4,7 @@ import lk.ijse.gdse.aad67.notecollecter67.customStatusCodes.SelectedUserErrorSta
 import lk.ijse.gdse.aad67.notecollecter67.dto.UserStatus;
 import lk.ijse.gdse.aad67.notecollecter67.dto.impl.UserDTO;
 import lk.ijse.gdse.aad67.notecollecter67.exception.DataPersistException;
+import lk.ijse.gdse.aad67.notecollecter67.exception.UserNotFoundException;
 import lk.ijse.gdse.aad67.notecollecter67.service.UserService;
 import lk.ijse.gdse.aad67.notecollecter67.service.impl.UserServiceIMPL;
 import lk.ijse.gdse.aad67.notecollecter67.util.AppUtil;
@@ -60,7 +61,6 @@ public class UserController {
         String regexForUserID = "^USER-[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$";
         Pattern regexPattern = Pattern.compile(regexForUserID);
         var regexMatcher = regexPattern.matcher(userId);
-
         if(!regexMatcher.matches()){
            return new SelectedUserErrorStatus(1,"User ID is not valid");
         }
@@ -68,8 +68,23 @@ public class UserController {
     }
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(value = "/{userId}")
-    public void deleteUser(@PathVariable("userId") String userId){
-        userService.deleteUser(userId);
+    public ResponseEntity<Void> deleteUser(@PathVariable("userId") String userId){
+        String regexForUserID = "^USER-[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$";
+        Pattern regexPattern = Pattern.compile(regexForUserID);
+        var regexMatcher = regexPattern.matcher(userId);
+        try {
+            if(!regexMatcher.matches()){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            userService.deleteUser(userId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (UserNotFoundException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<UserDTO> getAllUsers(){
