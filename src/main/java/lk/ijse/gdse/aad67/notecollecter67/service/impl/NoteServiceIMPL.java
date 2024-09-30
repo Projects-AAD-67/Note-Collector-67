@@ -35,7 +35,7 @@ public class NoteServiceIMPL implements NoteService {
 
     @Override
     public List<NoteDTO> getAllNotes() {
-        return null;
+        return noteMapping.asNoteDTOList( noteDao.findAll());
     }
 
     @Override
