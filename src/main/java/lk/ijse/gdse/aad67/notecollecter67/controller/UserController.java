@@ -1,5 +1,7 @@
 package lk.ijse.gdse.aad67.notecollecter67.controller;
 
+import lk.ijse.gdse.aad67.notecollecter67.customStatusCodes.SelectedUserErrorStatus;
+import lk.ijse.gdse.aad67.notecollecter67.dto.UserStatus;
 import lk.ijse.gdse.aad67.notecollecter67.dto.impl.UserDTO;
 import lk.ijse.gdse.aad67.notecollecter67.exception.DataPersistException;
 import lk.ijse.gdse.aad67.notecollecter67.service.UserService;
@@ -52,7 +54,10 @@ public class UserController {
         }
     }
     @GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserDTO getSelectedUser(@PathVariable ("userId") String userId){
+    public UserStatus getSelectedUser(@PathVariable ("userId") String userId){
+        if(userId.isEmpty() || userId ==null){
+           return new SelectedUserErrorStatus(1,"User ID is not valid");
+        }
         return userService.getUser(userId);
     }
     @ResponseStatus(HttpStatus.NO_CONTENT)
