@@ -6,6 +6,7 @@ import lk.ijse.gdse.aad67.notecollecter67.dto.impl.NoteDTO;
 import lk.ijse.gdse.aad67.notecollecter67.exception.DataPersistException;
 import lk.ijse.gdse.aad67.notecollecter67.exception.NoteNotFoundException;
 import lk.ijse.gdse.aad67.notecollecter67.service.NoteService;
+import lk.ijse.gdse.aad67.notecollecter67.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,6 +21,8 @@ import java.util.regex.Pattern;
 public class NoteController {
     @Autowired
    private NoteService noteService;
+    @Autowired
+    private UserService userService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -64,7 +67,23 @@ public class NoteController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    public void updateNote(String noteId,NoteDTO noteDTO){
+    @PutMapping(value = "/{noteId}")
+    public ResponseEntity<Void> updateNote(@PathVariable ("noteId") String noteId,
+                           @RequestBody NoteDTO updatedNoteDTO){
+        //validations
+        String regexForUserID = "^NOTE-[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$";
+        Pattern regexPattern = Pattern.compile(regexForUserID);
+        var regexMatcher = regexPattern.matcher(noteId);
+        try {
+            if(!regexMatcher.matches() || updatedNoteDTO == null){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            noteService.updateNote(noteId,updatedNoteDTO);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
 
     }
 
