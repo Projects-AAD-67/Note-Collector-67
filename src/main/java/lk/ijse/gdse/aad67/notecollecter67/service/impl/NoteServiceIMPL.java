@@ -1,8 +1,10 @@
 package lk.ijse.gdse.aad67.notecollecter67.service.impl;
 
 import jakarta.transaction.Transactional;
+import lk.ijse.gdse.aad67.notecollecter67.customStatusCodes.SelectedUserAndNoteErrorStatus;
 import lk.ijse.gdse.aad67.notecollecter67.dao.NoteDao;
 import lk.ijse.gdse.aad67.notecollecter67.dao.UserDao;
+import lk.ijse.gdse.aad67.notecollecter67.dto.NoteStatus;
 import lk.ijse.gdse.aad67.notecollecter67.dto.impl.NoteDTO;
 import lk.ijse.gdse.aad67.notecollecter67.entity.impl.NoteEntity;
 import lk.ijse.gdse.aad67.notecollecter67.exception.DataPersistException;
@@ -37,8 +39,13 @@ public class NoteServiceIMPL implements NoteService {
     }
 
     @Override
-    public NoteDTO getNote(String noteId) {
-        return null;
+    public NoteStatus getNote(String noteId) {
+       if(noteDao.existsById(noteId)){
+           var selectedUser = noteDao.getReferenceById(noteId);
+           return noteMapping.toNoteDTO(selectedUser);
+       }else {
+           return new SelectedUserAndNoteErrorStatus(2,"Selected note not found");
+       }
     }
 
     @Override

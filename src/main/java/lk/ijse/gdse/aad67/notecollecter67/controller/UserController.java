@@ -1,12 +1,11 @@
 package lk.ijse.gdse.aad67.notecollecter67.controller;
 
-import lk.ijse.gdse.aad67.notecollecter67.customStatusCodes.SelectedUserErrorStatus;
+import lk.ijse.gdse.aad67.notecollecter67.customStatusCodes.SelectedUserAndNoteErrorStatus;
 import lk.ijse.gdse.aad67.notecollecter67.dto.UserStatus;
 import lk.ijse.gdse.aad67.notecollecter67.dto.impl.UserDTO;
 import lk.ijse.gdse.aad67.notecollecter67.exception.DataPersistException;
 import lk.ijse.gdse.aad67.notecollecter67.exception.UserNotFoundException;
 import lk.ijse.gdse.aad67.notecollecter67.service.UserService;
-import lk.ijse.gdse.aad67.notecollecter67.service.impl.UserServiceIMPL;
 import lk.ijse.gdse.aad67.notecollecter67.util.AppUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @RestController
@@ -64,7 +62,7 @@ public class UserController {
         Pattern regexPattern = Pattern.compile(regexForUserID);
         var regexMatcher = regexPattern.matcher(userId);
         if(!regexMatcher.matches()){
-           return new SelectedUserErrorStatus(1,"User ID is not valid");
+           return new SelectedUserAndNoteErrorStatus(1,"User ID is not valid");
         }
         return userService.getUser(userId);
     }
