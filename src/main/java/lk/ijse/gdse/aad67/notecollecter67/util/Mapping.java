@@ -1,6 +1,8 @@
 package lk.ijse.gdse.aad67.notecollecter67.util;
 
+import lk.ijse.gdse.aad67.notecollecter67.dto.impl.NoteDTO;
 import lk.ijse.gdse.aad67.notecollecter67.dto.impl.UserDTO;
+import lk.ijse.gdse.aad67.notecollecter67.entity.impl.NoteEntity;
 import lk.ijse.gdse.aad67.notecollecter67.entity.impl.UserEntity;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -22,5 +24,15 @@ public class Mapping {
     }
     public List<UserDTO> asUserDTOList(List<UserEntity> userEntities) {
         return modelMapper.map(userEntities, new TypeToken<List<UserDTO>>() {}.getType());
+    }
+    //for note mapping
+    public NoteDTO toNoteDTO(NoteEntity noteEntity) {
+        return modelMapper.map(noteEntity, NoteDTO.class);
+    }
+    public NoteEntity toNoteEntity(NoteDTO noteDTO) {
+        return modelMapper.map(noteDTO, NoteEntity.class);
+    }
+    public List<NoteDTO> asNoteDTOList(List<NoteEntity> noteEntities) {
+        return modelMapper.map(noteEntities, new TypeToken<List<NoteDTO>>() {}.getType());
     }
 }
